@@ -9,11 +9,14 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 public class CameraMixed extends Activity {
 	private static final String TAG = "Sample::Activity";
@@ -98,6 +101,20 @@ public class CameraMixed extends Activity {
 		 * "No ORIENTATION Sensor", Toast.LENGTH_LONG) .show(); sensorrunning =
 		 * false; finish(); }
 		 */
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(CameraMixed.this);
+		builder.setCancelable(true);
+		builder.setTitle("Basic instructions");
+		builder.setMessage("Image is being analyzed in realtime:\n\n1) Tap on menu button to change active method (FAST...).\n2) Tap screen to focus image.\n3) Double tap to freeze image and analyze it using all methods.");
+		builder.setInverseBackgroundForced(true);
+		builder.setPositiveButton("OK!", new DialogInterface.OnClickListener() {
+		  public void onClick(DialogInterface dialog, int which) {
+		    dialog.dismiss();
+		  }
+		});
+		AlertDialog alert = builder.create();
+		alert.show();
+
 	}
 
 	private SensorEventListener mySensorEventListener = new SensorEventListener() {
@@ -152,58 +169,31 @@ public class CameraMixed extends Activity {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-
-		int action = event.getAction();
-		switch (action) {
-		case MotionEvent.ACTION_UP:
-			mView.doCameraFocus();
-			break;
-		}
-		return true;
+		// TODO Auto-generated method stub
+		return gestureDetector.onTouchEvent(event);
 	}
 
-//	private void trainCatalogImages() {
-//		new AsyncTask<Integer, Integer, Boolean>() {
-//			ProgressDialog progressDialog;
-//			private int viewMode;
-//			DisplayMetrics metrics;
-//
-//			@Override
-//			protected void onPreExecute() {
-//				/*
-//				 * This is executed on UI thread before doInBackground(). It is
-//				 * the perfect place to show the progress dialog.
-//				 */
-//				progressDialog = ProgressDialog.show(CameraMixed.this, "",
-//						"Training...");
-//				viewMode = mView.getViewMode();
-//				metrics = new DisplayMetrics();
-//				getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//			}
-//
-//			@Override
-//			protected Boolean doInBackground(Integer... params) {
-//				if (params == null) {
-//					return false;
-//				}
-//				try {
-//					// index images of catalog
-//					Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-//
-//					Intro.getCatalogInstance().TrainAll(viewMode,
-//							metrics.heightPixels);
-//				} catch (Exception e) {
-//					Log.e("tag", e.getMessage());
-//					return false;
-//				}
-//				return true;
-//			}
-//
-//			@Override
-//			protected void onPostExecute(Boolean result) {
-//				progressDialog.dismiss();
-//			}
-//		}.execute();
-//
-//	}
+	SimpleOnGestureListener simpleOnGestureListener = new SimpleOnGestureListener() {
+
+		@Override
+		public boolean onDoubleTap(MotionEvent e) {
+			// TODO Auto-generated method stub
+			mView.doCameraFocus();
+			mView.setWantCompleteAnalysis();
+			return super.onDoubleTap(e);
+		}
+
+		@Override
+		public boolean onSingleTapConfirmed(MotionEvent e) {
+			// TODO Auto-generated method stub
+			mView.doCameraFocus();
+			Toast.makeText(CameraMixed.this, "Focusing...", Toast.LENGTH_SHORT)
+					.show();
+			return super.onSingleTapConfirmed(e);
+		}
+	};
+
+	GestureDetector gestureDetector = new GestureDetector(
+			simpleOnGestureListener);
+
 }

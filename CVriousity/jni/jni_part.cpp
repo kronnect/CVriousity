@@ -112,7 +112,7 @@ JNIEXPORT void JNICALL Java_com_ramirooliva_cvriousity_CatalogManager_ResetTrain
 JNIEXPORT void JNICALL Java_com_ramirooliva_cvriousity_CatalogManager_TrainImage(
 		JNIEnv* env, jobject, int viewMode, jstring jfilename,
 		int heightPreview) {
-	LOGI("Training called (ooo)....");
+	LOGI("Training called....");
 	try {
 		Mat imageTrain;
 
@@ -240,14 +240,12 @@ JNIEXPORT void JNICALL Java_com_ramirooliva_cvriousity_CameraView_FindFeatures(
 		Mat aux = (*pMatGr);
 		sceneHeight = aux.rows;
 		sceneWidth = aux.cols;
-		busy = false;
-		return;
 		extractFeatures(viewMode, aux, keypoints, descriptors);
 		if (keypoints.size() > 20) {
-			int bestMatches[10];
+			int bestMatches[MAXIMAGES];
 			int bestIndex = -1;
-			std::vector<DMatch> bestGoodMatches[10];
-			int bestGoodMatchesCount[10];
+			std::vector<DMatch> bestGoodMatches[MAXIMAGES];
+			int bestGoodMatchesCount[MAXIMAGES];
 
 			// Check agains trained image
 			Ptr<DescriptorMatcher> matcher = new BFMatcher(NORM_HAMMING2, true);

@@ -3,9 +3,7 @@ package com.ramirooliva.cvriousity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
-import com.ramirooliva.cvriousity.R;
 
 public class CropBitmap {
 

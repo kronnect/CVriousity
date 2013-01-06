@@ -2,7 +2,6 @@ package com.ramirooliva.cvriousity;
 
 import java.io.IOException;
 import java.util.List;
-import com.ramirooliva.cvriousity.R;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,19 +10,17 @@ import android.graphics.Canvas;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
-import android.hardware.Camera.AutoFocusCallback;
 import android.hardware.Camera.PreviewCallback;
 import android.os.Build;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.Toast;
 
 public abstract class CameraViewBase extends SurfaceView implements
 		SurfaceHolder.Callback, Runnable {
 	private static final String TAG = "Sample::SurfaceView";
 
-	private Camera mCamera;
+	protected Camera mCamera;
 	private SurfaceHolder mHolder;
 	private int mFrameWidth;
 	private int mFrameHeight;
@@ -193,18 +190,6 @@ public abstract class CameraViewBase extends SurfaceView implements
 	 *            processFrame
 	 */
 	protected abstract void onPreviewStarted(int previewWidtd, int previewHeight);
-
-	public void doCameraFocus() {
-		AutoFocusCallback myAutoFocusCallback = new AutoFocusCallback() {
-
-			public void onAutoFocus(boolean success, Camera camera) {
-				// TODO Auto-generated method stub
-				if (success) {
-				}
-			}
-		};
-		mCamera.autoFocus(myAutoFocusCallback);
-	}
 
 	/**
 	 * This method is called when preview is stopped. When this method is called

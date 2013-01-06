@@ -185,9 +185,6 @@ public class Catalog extends Activity implements
 						Intent intent = new Intent(Catalog.this,
 								CameraMixed.class);
 						Catalog.this.startActivity(intent);
-						Toast.makeText(getBaseContext(),
-								"Tap screen to focus image", Toast.LENGTH_LONG)
-								.show();
 					}
 				}.execute();
 			}
@@ -330,6 +327,8 @@ public class Catalog extends Activity implements
 				Log.i(TAG, "Refreshed...");
 				croppedBitmap.recycle();
 				System.gc();
+				
+				gallery.setSelection(gallery.getCount()-1, true);
 
 			} catch (Exception e) {
 				e.printStackTrace();
