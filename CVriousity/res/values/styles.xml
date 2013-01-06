@@ -1,0 +1,39 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- just defines top layer "Animation" -->
+    <style name="MyAnimation" />
+
+    <!-- the animations must have been defined in your "anim" folder, of course -->
+    <style name="MyAnimation.Window" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+    <style name="MyButtonStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textSize">30dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+        <item name="android:background">@drawable/btn_blue</item>
+    </style>
+
+    <style name="MyImageButtonStyle" parent="MyButtonStyle">
+        <item name="android:tint">#ffffff</item>
+    </style>
+
+    <style name="MyTheme" parent="@android:Theme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@style/MyAnimation.Window</item>
+        <item name="android:buttonStyle">@style/MyButtonStyle</item>
+        <item name="android:imageButtonStyle">@style/MyImageButtonStyle</item>
+    </style>
+
+</resources>

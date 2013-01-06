@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">CvriousityTest</string>
+    <string name="welcome">Welcome to CVriousity! - An OpenCV experiment</string>
+    <string name="welcome_description">The purpose of this app is to evaluate OpenCV\'s ability to detect art imagery using best methods available for current version on Android port. The methods used are aligned to a research in which, from +30 combinations of detectors, descriptors and matchers, a few were singled out as best choices. This app allows you to choose from these selected combinations of methods so you can check their performance and efficacy from your own device.</string>
+    <string name="copyright">Copyright 2012 Ramiro Oliva Navas (@RamiroOliva)</string>
+
+</resources>
