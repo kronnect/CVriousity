@@ -18,7 +18,7 @@ import android.util.Log;
 
 public class CatalogManager {
 
-	private static final String TAG = "Cvriousity::CatalogManager";
+//	private static final String TAG = "Cvriousity::CatalogManager";
 
 	ArrayList<CatalogBean> catalogBeanArrayList = new ArrayList<CatalogBean>();
 
@@ -42,7 +42,7 @@ public class CatalogManager {
 			Object o = ois.readObject();
 			return o;
 		} catch (Exception ex) {
-			Log.v("Catalog", ex.getMessage());
+//			Log.v("Catalog", ex.getMessage());
 			ex.printStackTrace();
 		}
 		return null;
@@ -87,7 +87,7 @@ public class CatalogManager {
 							// was written to 'save.bin'
 			oos.close();// close the stream
 		} catch (Exception ex) {
-			Log.v("Catalog", ex.getMessage());
+//			Log.v("Catalog", ex.getMessage());
 			ex.printStackTrace();
 		}
 	}
@@ -183,7 +183,7 @@ public class CatalogManager {
 	//
 
 	public Bitmap getImage(int index) {
-		Log.i(TAG, "getImage called! " + index);
+//		Log.i(TAG, "getImage called! " + index);
 		CatalogBean b = catalogBeanArrayList.get(index);
 
 		// if bitmap is not cached, then temporary create a thumbnail. Will
@@ -197,7 +197,7 @@ public class CatalogManager {
 			options.inSampleSize = 4;
 			return BitmapFactory.decodeStream(in, null, options);
 		} catch (FileNotFoundException e) {
-			Log.e(TAG, e.getMessage());
+//			Log.e(TAG, e.getMessage());
 			e.printStackTrace();
 		}
 		return null;
@@ -224,9 +224,9 @@ public class CatalogManager {
 
 		CatalogManager catalogManager = Intro.getCatalogInstance();
 		for (int i = 0; i < catalogManager.size(); i++) {
-			Log.i(TAG,
-					"Training image " + (i + 1) + "="
-							+ catalogManager.getImageFilename(i) + ", ViewMode=" + viewMode + "...");
+//			Log.i(TAG,
+//					"Training image " + (i + 1) + "="
+//							+ catalogManager.getImageFilename(i) + ", ViewMode=" + viewMode + "...");
 			CatalogBean b = catalogBeanArrayList.get(i);
 			File file = new File(getAppFilesPath(), b.filename);
 			TrainImage(viewMode,  file.getAbsolutePath(), screenHeight);

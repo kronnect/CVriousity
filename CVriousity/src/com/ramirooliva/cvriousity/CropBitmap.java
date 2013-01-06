@@ -63,7 +63,7 @@ public class CropBitmap {
 //			dstWidth = deviceWidth;
 //			dstHeight = (int)(srcHeight * ((float)deviceWidth/(float)srcWidth));
 //		}
-		if (srcWidth * (float)deviceHeight/(float)srcHeight > deviceWidth) {
+		if (srcWidth * (float)deviceHeight/srcHeight > deviceWidth) {
 			dstWidth = deviceWidth;
 			dstHeight = (int)(srcHeight * ((float)deviceWidth/(float)srcWidth));
 		} else {
@@ -159,15 +159,15 @@ public class CropBitmap {
 //	}
 
 	private static boolean colorWithinTolerance(int a, int b, double tolerance) {
-		int aAlpha = (int) ((a & 0xFF000000) >>> 24); // Alpha level
-		int aRed = (int) ((a & 0x00FF0000) >>> 16); // Red level
-		int aGreen = (int) ((a & 0x0000FF00) >>> 8); // Green level
-		int aBlue = (int) (a & 0x000000FF); // Blue level
+		int aAlpha = (a & 0xFF000000) >>> 24; // Alpha level
+		int aRed = (a & 0x00FF0000) >>> 16; // Red level
+		int aGreen = (a & 0x0000FF00) >>> 8; // Green level
+		int aBlue = a & 0x000000FF; // Blue level
 
-		int bAlpha = (int) ((b & 0xFF000000) >>> 24); // Alpha level
-		int bRed = (int) ((b & 0x00FF0000) >>> 16); // Red level
-		int bGreen = (int) ((b & 0x0000FF00) >>> 8); // Green level
-		int bBlue = (int) (b & 0x000000FF); // Blue level
+		int bAlpha = (b & 0xFF000000) >>> 24; // Alpha level
+		int bRed = (b & 0x00FF0000) >>> 16; // Red level
+		int bGreen = (b & 0x0000FF00) >>> 8; // Green level
+		int bBlue = b & 0x000000FF; // Blue level
 
 		double distance = Math.sqrt((aAlpha - bAlpha) * (aAlpha - bAlpha)
 				+ (aRed - bRed) * (aRed - bRed) + (aGreen - bGreen)

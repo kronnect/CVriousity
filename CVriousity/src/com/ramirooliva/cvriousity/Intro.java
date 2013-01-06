@@ -3,17 +3,15 @@ package com.ramirooliva.cvriousity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import com.ramirooliva.cvriousity.R;
 
 public class Intro extends Activity {
-	private static final String TAG = "Cvriousity::Intro";
+//	private static final String TAG = "Cvriousity::Intro";
 	private static CatalogManager mCatalogManager = new CatalogManager();
 
 	String[] titles = { "\"Allegory\", AACHEN, Hans von",
@@ -28,7 +26,7 @@ public class Intro extends Activity {
 			"\"Chimney breast\", ABBATE, Niccolò dell'" };
 
 	public Intro() {
-		Log.i(TAG, "Instantiated new " + this.getClass());
+//		Log.i(TAG, "Instantiated new " + this.getClass());
 	}
 
 	public static CatalogManager getCatalogInstance() {
@@ -37,13 +35,13 @@ public class Intro extends Activity {
 
 	@Override
 	protected void onPause() {
-		Log.i(TAG, "onPause");
+//		Log.i(TAG, "onPause");
 		super.onPause();
 	}
 
 	@Override
 	protected void onResume() {
-		Log.i(TAG, "onResume");
+//		Log.i(TAG, "onResume");
 		super.onResume();
 	}
 
@@ -51,7 +49,7 @@ public class Intro extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.i(TAG, "onCreate");
+//		Log.i(TAG, "onCreate");
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -64,10 +62,10 @@ public class Intro extends Activity {
 				if (mCatalogManager.size() == 0) {
 					for (int i = 1; i <= 10; i++) {
 						String name = String.format("image%07d", i);
-						Log.i(TAG, name);
+//						Log.i(TAG, name);
 						int id = getResources().getIdentifier(name, "drawable",
 								getPackageName());
-						Log.i(TAG, String.valueOf(id));
+//						Log.i(TAG, String.valueOf(id));
 						mCatalogManager.addImageFromResource(id, titles[i - 1]);
 					}
 				}
@@ -78,13 +76,15 @@ public class Intro extends Activity {
 
 	}
 
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		Log.i(TAG, "onCreateOptionsMenu");
+//		Log.i(TAG, "onCreateOptionsMenu");
 		return true;
 	}
 
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Log.i(TAG, "Menu Item selected " + item);
+//		Log.i(TAG, "Menu Item selected " + item);
 		return true;
 	}
 

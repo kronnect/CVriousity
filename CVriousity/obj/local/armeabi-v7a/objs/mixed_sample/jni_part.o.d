@@ -50,8 +50,7 @@ obj/local/armeabi-v7a/objs/mixed_sample/jni_part.o: jni/jni_part.cpp \
  /home/ramcor/OpenCV-android/sdk/native/jni/include/opencv2/calib3d/calib3d.hpp \
  /home/ramcor/OpenCV-android/sdk/native/jni/include/opencv2/highgui/highgui.hpp \
  /home/ramcor/OpenCV-android/sdk/native/jni/include/opencv2/highgui/highgui_c.h \
- /home/ramcor/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/iostream \
- /home/ramcor/android-ndk/platforms/android-14/arch-arm/usr/include/android/log.h
+ /home/ramcor/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/iostream
 
 /home/ramcor/android-ndk/platforms/android-14/arch-arm/usr/include/jni.h:
 
@@ -156,5 +155,3 @@ obj/local/armeabi-v7a/objs/mixed_sample/jni_part.o: jni/jni_part.cpp \
 /home/ramcor/OpenCV-android/sdk/native/jni/include/opencv2/highgui/highgui_c.h:
 
 /home/ramcor/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/iostream:
-
-/home/ramcor/android-ndk/platforms/android-14/arch-arm/usr/include/android/log.h:

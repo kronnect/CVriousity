@@ -3,12 +3,7 @@ package com.ramirooliva.cvriousity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.Menu;
@@ -19,7 +14,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 public class CameraMixed extends Activity {
-	private static final String TAG = "Sample::Activity";
+//	private static final String TAG = "Sample::Activity";
 
 	private MenuItem mItemPreviewFBRIEF;
 	private MenuItem mItemPreviewORB;
@@ -27,17 +22,17 @@ public class CameraMixed extends Activity {
 	private MenuItem mItemPreviewMFREAK;
 	private MenuItem mItemPreviewGFREAK;
 	private CameraView mView;
-	private static SensorManager mySensorManager;
-	private boolean sensorrunning;
-	private float y;
+//	private static SensorManager mySensorManager;
+//	private boolean sensorrunning;
+//	private float y;
 
 	public CameraMixed() {
-		Log.i(TAG, "Instantiated new " + this.getClass());
+//		Log.i(TAG, "Instantiated new " + this.getClass());
 	}
 
 	@Override
 	protected void onPause() {
-		Log.i(TAG, "onPause");
+//		Log.i(TAG, "onPause");
 		super.onPause();
 		if (null != mView)
 			mView.releaseCamera();
@@ -45,7 +40,7 @@ public class CameraMixed extends Activity {
 
 	@Override
 	protected void onResume() {
-		Log.i(TAG, "onResume");
+//		Log.i(TAG, "onResume");
 		super.onResume();
 		if ((null != mView) && !mView.openCamera()) {
 			AlertDialog ad = new AlertDialog.Builder(this).create();
@@ -65,7 +60,7 @@ public class CameraMixed extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.i(TAG, "onCreate");
+//		Log.i(TAG, "onCreate");
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -117,32 +112,33 @@ public class CameraMixed extends Activity {
 
 	}
 
-	private SensorEventListener mySensorEventListener = new SensorEventListener() {
+//	private SensorEventListener mySensorEventListener = new SensorEventListener() {
+//
+//		public void onSensorChanged(SensorEvent event) {
+//			// TODO Auto-generated method stub
+//
+//			y = event.values[1];
+//		}
+//
+//		public void onAccuracyChanged(Sensor sensor, int accuracy) {
+//			// TODO Auto-generated method stub
+//
+//		}
+//	};
 
-		public void onSensorChanged(SensorEvent event) {
-			// TODO Auto-generated method stub
-
-			y = event.values[1];
-		}
-
-		public void onAccuracyChanged(Sensor sensor, int accuracy) {
-			// TODO Auto-generated method stub
-
-		}
-	};
+//	@Override
+//	protected void onDestroy() {
+//		// TODO Auto-generated method stub
+//		super.onDestroy();
+//
+//		if (sensorrunning) {
+//			mySensorManager.unregisterListener(mySensorEventListener);
+//		}
+//	}
 
 	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-
-		if (sensorrunning) {
-			mySensorManager.unregisterListener(mySensorEventListener);
-		}
-	}
-
 	public boolean onCreateOptionsMenu(Menu menu) {
-		Log.i(TAG, "onCreateOptionsMenu");
+//		Log.i(TAG, "onCreateOptionsMenu");
 		mItemPreviewFBRIEF = menu.add("FAST+BRIEF");
 		mItemPreviewFFREAK = menu.add("FAST+FREAK");
 		mItemPreviewORB = menu.add("ORB");
@@ -151,8 +147,9 @@ public class CameraMixed extends Activity {
 		return true;
 	}
 
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Log.i(TAG, "Menu Item selected " + item);
+//		Log.i(TAG, "Menu Item selected " + item);
 		if (item == mItemPreviewORB) {
 			mView.setViewMode(CameraView.VIEW_MODE_ORB);
 		} else if (item == mItemPreviewMFREAK) {

@@ -17,7 +17,6 @@ import android.graphics.RectF;
 import android.hardware.Camera;
 import android.hardware.Camera.AutoFocusCallback;
 import android.os.AsyncTask;
-import android.util.Log;
 
 class CameraView extends CameraViewBase {
 
@@ -137,7 +136,7 @@ class CameraView extends CameraViewBase {
 					}
 					beat = true;
 				} catch (Exception e) {
-					Log.e("tag", e.getMessage());
+//					Log.e("tag", e.getMessage());
 					return false;
 				}
 				return true;
@@ -188,7 +187,7 @@ class CameraView extends CameraViewBase {
 					}
 					beat = true;
 				} catch (Exception e) {
-					Log.e("tag", e.getMessage());
+//					Log.e("tag", e.getMessage());
 					return false;
 				}
 				return true;
@@ -274,8 +273,8 @@ class CameraView extends CameraViewBase {
 		try {
 			Utils.matToBitmap(mRgba, bmp);
 		} catch (Exception e) {
-			Log.e("org.cvriousity", "Utils.matToBitmap() throws an exception: "
-					+ e.getMessage());
+//			Log.e("org.cvriousity", "Utils.matToBitmap() throws an exception: "
+//					+ e.getMessage());
 			bmp.recycle();
 			return null;
 		}
@@ -291,7 +290,7 @@ class CameraView extends CameraViewBase {
 		paint.setTextSize(25);
 		Rect textSize = new Rect();
 		paint.getTextBounds(mode, 0, mode.length(), textSize);
-		int x = (int) (mRgba.cols() - textSize.width() - 10);
+		int x = mRgba.cols() - textSize.width() - 10;
 		canvas.drawText(mode, x, 25, paint);
 
 		// draw FPS or status indicator on top/left corner

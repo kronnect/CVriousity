@@ -22,7 +22,9 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.provider.MediaStore;
+import android.provider.MediaStore.MediaColumns;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -46,7 +48,7 @@ import android.widget.ViewSwitcher;
 public class Catalog extends Activity implements
 		AdapterView.OnItemSelectedListener, ViewSwitcher.ViewFactory {
 	private static final int CAMERA_REQUEST = 1888;
-	private static final String TAG = "Cvriousity::Catalog";
+//	private static final String TAG = "Cvriousity::Catalog";
 	private Gallery gallery;
 	private CatalogManager mCatalogManager;
 	private String mLastFilename;
@@ -56,7 +58,7 @@ public class Catalog extends Activity implements
 		public void onManagerConnected(int status) {
 			switch (status) {
 			case LoaderCallbackInterface.SUCCESS: {
-				Log.i(TAG, "OpenCV loaded successfully");
+//				Log.i(TAG, "OpenCV loaded successfully");
 				// Load native library after(!) OpenCV initialization
 				System.loadLibrary("mixed_sample");
 			}
@@ -70,19 +72,19 @@ public class Catalog extends Activity implements
 	};
 
 	public Catalog() {
-		Log.i(TAG, "Instantiated new " + this.getClass());
+//		Log.i(TAG, "Instantiated new " + this.getClass());
 		mCatalogManager = Intro.getCatalogInstance();
 	}
 
 	@Override
 	protected void onPause() {
-		Log.i(TAG, "onPause");
+//		Log.i(TAG, "onPause");
 		super.onPause();
 	}
 
 	@Override
 	protected void onResume() {
-		Log.i(TAG, "onResume");
+//		Log.i(TAG, "onResume");
 		super.onResume();
 	}
 
@@ -92,16 +94,16 @@ public class Catalog extends Activity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.i(TAG, "onCreate");
+//		Log.i(TAG, "onCreate");
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.catalog);
 
-		Log.i(TAG, "Trying to load OpenCV library");
+//		Log.i(TAG, "Trying to load OpenCV library");
 		if (!OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_2, this,
 				mOpenCVCallBack)) {
-			Log.e(TAG, "Cannot connect to OpenCV Manager");
+//			Log.e(TAG, "Cannot connect to OpenCV Manager");
 		}
 
 		final ImageButton photo_button = (ImageButton) findViewById(R.id.btn_photo);
@@ -275,19 +277,19 @@ public class Catalog extends Activity implements
 	}
 
 	private int getLastImageId() {
-		final String[] imageColumns = { MediaStore.Images.Media._ID,
-				MediaStore.Images.Media.DATA };
-		final String imageOrderBy = MediaStore.Images.Media._ID + " DESC";
+		final String[] imageColumns = { BaseColumns._ID,
+				MediaColumns.DATA };
+		final String imageOrderBy = BaseColumns._ID + " DESC";
 		Cursor imageCursor = managedQuery(
 				MediaStore.Images.Media.EXTERNAL_CONTENT_URI, imageColumns,
 				null, null, imageOrderBy);
 		if (imageCursor.moveToFirst()) {
 			int id = imageCursor.getInt(imageCursor
-					.getColumnIndex(MediaStore.Images.Media._ID));
+					.getColumnIndex(BaseColumns._ID));
 			String fullPath = imageCursor.getString(imageCursor
-					.getColumnIndex(MediaStore.Images.Media.DATA));
-			Log.d(TAG, "getLastImageId::id " + id);
-			Log.d(TAG, "getLastImageId::path " + fullPath);
+					.getColumnIndex(MediaColumns.DATA));
+//			Log.d(TAG, "getLastImageId::id " + id);
+//			Log.d(TAG, "getLastImageId::path " + fullPath);
 			imageCursor.close();
 			return id;
 		} else {
@@ -298,16 +300,17 @@ public class Catalog extends Activity implements
 	private void removeImage(int id) {
 		ContentResolver cr = getContentResolver();
 		cr.delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-				MediaStore.Images.Media._ID + "=?",
+				BaseColumns._ID + "=?",
 				new String[] { Long.toString(id) });
 	}
 
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == CAMERA_REQUEST) {
 			// Bitmap photo = (Bitmap) data.getExtras().get("data");
 			// imageView.setImageBitmap(photo);
 			try {
-				Log.i(TAG, "Getting image...");
+//				Log.i(TAG, "Getting image...");
 				// remove last image from camera roll
 				removeImage(getLastImageId());
 				// load a reduced size version of captured image
@@ -321,10 +324,10 @@ public class Catalog extends Activity implements
 						metrics.widthPixels, metrics.heightPixels);
 				bitmap.recycle();
 				System.gc();
-				Log.i(TAG, "Adding image...");
+//				Log.i(TAG, "Adding image...");
 				mCatalogManager.addImage(croppedBitmap, "Untitled image");
 				((BaseAdapter) gallery.getAdapter()).notifyDataSetChanged();
-				Log.i(TAG, "Refreshed...");
+//				Log.i(TAG, "Refreshed...");
 				croppedBitmap.recycle();
 				System.gc();
 				
@@ -337,10 +340,10 @@ public class Catalog extends Activity implements
 	}
 
 	public String getRealPathFromURI(Uri contentUri) {
-		String[] projx = { MediaStore.Images.Media.DATA };
+		String[] projx = { MediaColumns.DATA };
 		Cursor cursor = managedQuery(contentUri, projx, null, null, null);
 		int column_index = cursor
-				.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+				.getColumnIndexOrThrow(MediaColumns.DATA);
 		cursor.moveToFirst();
 		return cursor.getString(column_index);
 	}
@@ -367,7 +370,7 @@ public class Catalog extends Activity implements
 		i.setBackgroundColor(0xFF000000);
 		i.setScaleType(ImageView.ScaleType.FIT_CENTER);
 		i.setLayoutParams(new ImageSwitcher.LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT));
 		return i;
 	}
 
@@ -396,7 +399,7 @@ public class Catalog extends Activity implements
 			i.setImageBitmap(mCatalogManager.getImage(position));
 			i.setAdjustViewBounds(true);
 			i.setLayoutParams(new Gallery.LayoutParams(
-					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 			// i.setBackgroundResource(R.drawable.btn_blue);
 			i.setBackgroundColor(Color.WHITE);
 			i.setPadding(1, 1, 1, 1);

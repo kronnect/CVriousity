@@ -1,7 +1,6 @@
 package com.ramirooliva.cvriousity;
 
 import java.io.Serializable;
-import com.ramirooliva.cvriousity.R;
 
 
 public class CatalogIndex implements Serializable {

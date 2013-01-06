@@ -6,14 +6,14 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <vector>
 #include <iostream>
-#include <android/log.h>
+//#include <android/log.h>
 
 using namespace std;
 using namespace cv;
 
-#define LOG_TAG "TestApp_JNI"
-#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
-#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+//#define LOG_TAG "TestApp_JNI"
+//#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
+//#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 
 extern "C" {
 
@@ -112,7 +112,7 @@ JNIEXPORT void JNICALL Java_com_ramirooliva_cvriousity_CatalogManager_ResetTrain
 JNIEXPORT void JNICALL Java_com_ramirooliva_cvriousity_CatalogManager_TrainImage(
 		JNIEnv* env, jobject, int viewMode, jstring jfilename,
 		int heightPreview) {
-	LOGI("Training called....");
+//	LOGI("Training called....");
 	try {
 		Mat imageTrain;
 
@@ -136,13 +136,13 @@ JNIEXPORT void JNICALL Java_com_ramirooliva_cvriousity_CatalogManager_TrainImage
 		imageTrain.release();
 		aux.release();
 
-		ostringstream os;
-		os << "Training finished.... " << imageTrainKeypoints[viewMode][imageTrainIndex[viewMode]].size() << " keypoints.";
-		LOGI(os.str().c_str());
+//		ostringstream os;
+//		os << "Training finished.... " << imageTrainKeypoints[viewMode][imageTrainIndex[viewMode]].size() << " keypoints.";
+//		LOGI(os.str().c_str());
 
 		env->ReleaseStringUTFChars(jfilename, imageTrainFile);
 	} catch (Exception const &ex) {
-		LOGI(ex.msg.c_str());
+//		LOGI(ex.msg.c_str());
 	}
 
 }

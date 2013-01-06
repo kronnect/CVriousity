@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
-import com.ramirooliva.cvriousity.R;
 
 class CatalogView extends View {
 

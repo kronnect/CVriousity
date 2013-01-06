@@ -12,13 +12,12 @@ import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.hardware.Camera.PreviewCallback;
 import android.os.Build;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 public abstract class CameraViewBase extends SurfaceView implements
 		SurfaceHolder.Callback, Runnable {
-	private static final String TAG = "Sample::SurfaceView";
+//	private static final String TAG = "Sample::SurfaceView";
 
 	protected Camera mCamera;
 	private SurfaceHolder mHolder;
@@ -32,7 +31,7 @@ public abstract class CameraViewBase extends SurfaceView implements
 		super(context);
 		mHolder = getHolder();
 		mHolder.addCallback(this);
-		Log.i(TAG, "Instantiated new " + this.getClass());
+//		Log.i(TAG, "Instantiated new " + this.getClass());
 	}
 
 	public int getFrameWidth() {
@@ -52,11 +51,11 @@ public abstract class CameraViewBase extends SurfaceView implements
 	}
 
 	public boolean openCamera() {
-		Log.i(TAG, "openCamera");
+//		Log.i(TAG, "openCamera");
 		releaseCamera();
 		mCamera = Camera.open();
 		if (mCamera == null) {
-			Log.e(TAG, "Can't open camera!");
+//			Log.e(TAG, "Can't open camera!");
 			return false;
 		}
 
@@ -73,7 +72,7 @@ public abstract class CameraViewBase extends SurfaceView implements
 	}
 
 	public void releaseCamera() {
-		Log.i(TAG, "releaseCamera");
+//		Log.i(TAG, "releaseCamera");
 		mThreadRun = false;
 		synchronized (this) {
 			if (mCamera != null) {
@@ -87,7 +86,7 @@ public abstract class CameraViewBase extends SurfaceView implements
 	}
 
 	public void setupCamera(int width, int height) {
-		Log.i(TAG, "setupCamera");
+//		Log.i(TAG, "setupCamera");
 		synchronized (this) {
 			if (mCamera != null) {
 				Camera.Parameters params = mCamera.getParameters();
@@ -108,8 +107,8 @@ public abstract class CameraViewBase extends SurfaceView implements
 				}
 
 				params.setPreviewSize(getFrameWidth(), getFrameHeight());
-				Log.i(TAG, Integer.valueOf(mFrameWidth).toString());
-				Log.i(TAG, Integer.valueOf(mFrameHeight).toString());
+//				Log.i(TAG, Integer.valueOf(mFrameWidth).toString());
+//				Log.i(TAG, Integer.valueOf(mFrameHeight).toString());
 
 				params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
 				// List<String> FocusModes = params.getSupportedFocusModes();
@@ -135,9 +134,9 @@ public abstract class CameraViewBase extends SurfaceView implements
 				try {
 					setPreview();
 				} catch (IOException e) {
-					Log.e(TAG,
-							"mCamera.setPreviewDisplay/setPreviewTexture fails: "
-									+ e);
+//					Log.e(TAG,
+//							"mCamera.setPreviewDisplay/setPreviewTexture fails: "
+//									+ e);
 				}
 
 				/*
@@ -156,17 +155,17 @@ public abstract class CameraViewBase extends SurfaceView implements
 
 	public void surfaceChanged(SurfaceHolder _holder, int format, int width,
 			int height) {
-		Log.i(TAG, "surfaceChanged");
+//		Log.i(TAG, "surfaceChanged");
 		setupCamera(width, height);
 	}
 
 	public void surfaceCreated(SurfaceHolder holder) {
-		Log.i(TAG, "surfaceCreated");
+//		Log.i(TAG, "surfaceCreated");
 		(new Thread(this)).start();
 	}
 
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		Log.i(TAG, "surfaceDestroyed");
+//		Log.i(TAG, "surfaceDestroyed");
 		releaseCamera();
 	}
 
@@ -200,23 +199,9 @@ public abstract class CameraViewBase extends SurfaceView implements
 	 */
 	protected abstract void onPreviewStopped();
 
-	//
-	// public void doCameraFocus() {
-	// AutoFocusCallback myAutoFocusCallback = new AutoFocusCallback() {
-	//
-	// public void onAutoFocus(boolean success, Camera camera) {
-	// // TODO Auto-generated method stub
-	// success = true;
-	//
-	// }
-	// };
-	// mCamera.autoFocus(myAutoFocusCallback);
-	// }
-	//
-
 	public void run() {
 		mThreadRun = true;
-		Log.i(TAG, "Starting processing thread");
+//		Log.i(TAG, "Starting processing thread");
 		while (mThreadRun) {
 			Bitmap bmp = null;
 
