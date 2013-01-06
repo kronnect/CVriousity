@@ -10,7 +10,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
-import com.ramirooliva.cvriousity.R;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,7 +28,7 @@ public class CatalogManager {
 
 	private String getAppFilesPath() {
 		String path = Environment.getExternalStorageDirectory()
-				+ "/Android/data/org.cvriousity.testapp/files";
+				+ "/Android/data/com.ramirooliva.cvriousity/files";
 		File file = new File(path);
 		file.mkdirs();
 		return path;
@@ -184,7 +183,7 @@ public class CatalogManager {
 	//
 
 	public Bitmap getImage(int index) {
-		Log.i(TAG, "getImageThumbnail called!");
+		Log.i(TAG, "getImage called! " + index);
 		CatalogBean b = catalogBeanArrayList.get(index);
 
 		// if bitmap is not cached, then temporary create a thumbnail. Will
@@ -194,14 +193,14 @@ public class CatalogManager {
 		try {
 			in = new FileInputStream(file);
 			final BitmapFactory.Options options = new BitmapFactory.Options();
-			options.inPurgeable = true;
+			options.inPurgeable = false;
 			options.inSampleSize = 4;
 			return BitmapFactory.decodeStream(in, null, options);
 		} catch (FileNotFoundException e) {
+			Log.e(TAG, e.getMessage());
 			e.printStackTrace();
 		}
 		return null;
-
 	}
 
 	public String getImageFilename(int index) {
