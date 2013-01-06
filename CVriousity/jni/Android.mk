@@ -11,6 +11,6 @@ LOCAL_LDLIBS +=  -llog -ldl
 
 include $(BUILD_SHARED_LIBRARY)
 
-DUMMY := $(shell /home/ramcor/android-sdk/platform-tools/adb uninstall org.cvriousity.testapp)
+DUMMY := $(shell /home/ramcor/android-sdk/platform-tools/adb uninstall com.ramirooliva.cvriousity)
 
 

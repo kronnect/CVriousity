@@ -60,13 +60,16 @@ public class Intro extends Activity {
 		final Button go_button = (Button) findViewById(R.id.btn_continue);
 		go_button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				for (int i = 1; i <= 10; i++) {
-					String name = String.format("image%07d", i);
-					Log.i(TAG, name);
-					int id = getResources().getIdentifier(name, "drawable",
-							getPackageName());
-					Log.i(TAG, String.valueOf(id));
-					mCatalogManager.addImageFromResource(id, titles[i - 1]);
+				// First time run? Preload 10 sample images...
+				if (mCatalogManager.size() == 0) {
+					for (int i = 1; i <= 10; i++) {
+						String name = String.format("image%07d", i);
+						Log.i(TAG, name);
+						int id = getResources().getIdentifier(name, "drawable",
+								getPackageName());
+						Log.i(TAG, String.valueOf(id));
+						mCatalogManager.addImageFromResource(id, titles[i - 1]);
+					}
 				}
 				Intent intent = new Intent(Intro.this, Catalog.class);
 				Intro.this.startActivity(intent);

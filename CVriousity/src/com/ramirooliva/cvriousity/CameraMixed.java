@@ -2,22 +2,18 @@ package com.ramirooliva.cvriousity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
-import com.ramirooliva.cvriousity.R;
 
 public class CameraMixed extends Activity {
 	private static final String TAG = "Sample::Activity";
@@ -151,7 +147,6 @@ public class CameraMixed extends Activity {
 		} else if (item == mItemPreviewFBRIEF) {
 			mView.setViewMode(CameraView.VIEW_MODE_FBRIEF);
 		}
-		trainCatalogImages();
 		return true;
 	}
 
@@ -167,48 +162,48 @@ public class CameraMixed extends Activity {
 		return true;
 	}
 
-	private void trainCatalogImages() {
-		new AsyncTask<Integer, Integer, Boolean>() {
-			ProgressDialog progressDialog;
-			private int viewMode;
-			DisplayMetrics metrics;
-
-			@Override
-			protected void onPreExecute() {
-				/*
-				 * This is executed on UI thread before doInBackground(). It is
-				 * the perfect place to show the progress dialog.
-				 */
-				progressDialog = ProgressDialog.show(CameraMixed.this, "",
-						"Training...");
-				viewMode = mView.getViewMode();
-				metrics = new DisplayMetrics();
-				getWindowManager().getDefaultDisplay().getMetrics(metrics);
-			}
-
-			@Override
-			protected Boolean doInBackground(Integer... params) {
-				if (params == null) {
-					return false;
-				}
-				try {
-					// index images of catalog
-					Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-
-					Intro.getCatalogInstance().TrainAll(viewMode,
-							metrics.heightPixels);
-				} catch (Exception e) {
-					Log.e("tag", e.getMessage());
-					return false;
-				}
-				return true;
-			}
-
-			@Override
-			protected void onPostExecute(Boolean result) {
-				progressDialog.dismiss();
-			}
-		}.execute();
-
-	}
+//	private void trainCatalogImages() {
+//		new AsyncTask<Integer, Integer, Boolean>() {
+//			ProgressDialog progressDialog;
+//			private int viewMode;
+//			DisplayMetrics metrics;
+//
+//			@Override
+//			protected void onPreExecute() {
+//				/*
+//				 * This is executed on UI thread before doInBackground(). It is
+//				 * the perfect place to show the progress dialog.
+//				 */
+//				progressDialog = ProgressDialog.show(CameraMixed.this, "",
+//						"Training...");
+//				viewMode = mView.getViewMode();
+//				metrics = new DisplayMetrics();
+//				getWindowManager().getDefaultDisplay().getMetrics(metrics);
+//			}
+//
+//			@Override
+//			protected Boolean doInBackground(Integer... params) {
+//				if (params == null) {
+//					return false;
+//				}
+//				try {
+//					// index images of catalog
+//					Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+//
+//					Intro.getCatalogInstance().TrainAll(viewMode,
+//							metrics.heightPixels);
+//				} catch (Exception e) {
+//					Log.e("tag", e.getMessage());
+//					return false;
+//				}
+//				return true;
+//			}
+//
+//			@Override
+//			protected void onPostExecute(Boolean result) {
+//				progressDialog.dismiss();
+//			}
+//		}.execute();
+//
+//	}
 }

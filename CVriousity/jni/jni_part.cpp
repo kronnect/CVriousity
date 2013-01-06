@@ -18,17 +18,14 @@ using namespace cv;
 extern "C" {
 
 #define MAXIMAGES 100
+#define MAXMETHODS 5
 
-vector<KeyPoint> imageTrainKeypoints[MAXIMAGES];
-Mat imageTrainDescriptors[MAXIMAGES];
-std::vector<Point2f> imageTrainObjCorners[MAXIMAGES];
-int imageTrainIndex = -1;
+vector<KeyPoint> imageTrainKeypoints[MAXMETHODS][MAXIMAGES];
+Mat imageTrainDescriptors[MAXMETHODS][MAXIMAGES];
+std::vector<Point2f> imageTrainObjCorners[MAXMETHODS][MAXIMAGES];
+int imageTrainIndex[MAXMETHODS];
 
-Ptr<DescriptorMatcher> matcher;
 bool busy = false;
-double SCALE_TRAIN = 1.0;
-//double SCALE_SCENE = 1.0;
-double SCREEN_FACTOR;
 int sceneHeight = 0, sceneWidth = 0;
 Scalar colorWhite = Scalar::all(255);
 vector<KeyPoint> keypoints;
@@ -61,7 +58,7 @@ void extractFeatures(int viewMode, Mat image, vector<KeyPoint>& keypoints,
 		BRIEFfeatureExtractor->compute(image, keypoints, descriptors);
 		break;
 	case 1:
-		ORBfeatureDetector.detect(image, keypoints); // NOTE: featureDetector is a pointer hence the '->'.
+		ORBfeatureDetector.detect(image, keypoints);
 		ORBfeatureExtractor.compute(image, keypoints, descriptors);
 		break;
 	case 2:
@@ -107,47 +104,41 @@ void crossCheckMatching(Ptr<DescriptorMatcher>& descriptorMatcher,
 
 JNIEXPORT void JNICALL Java_com_ramirooliva_cvriousity_CatalogManager_ResetTrain(
 		JNIEnv*, jobject) {
-	imageTrainIndex = -1;
+	for (int k = 0; k < MAXMETHODS; k++) {
+		imageTrainIndex[k] = -1;
+	}
 }
-
-//JNIEXPORT void JNICALL Java_org_cvriousity_testapp_Sample4View_ChangeScale(
-//		JNIEnv*, jobject) {
-//	SCALE_SCENE = SCALE_SCENE - 0.1;
-//	if (SCALE_SCENE < 0.3) {
-//		SCALE_SCENE = 1;
-//	}
-//}
 
 JNIEXPORT void JNICALL Java_com_ramirooliva_cvriousity_CatalogManager_TrainImage(
 		JNIEnv* env, jobject, int viewMode, jstring jfilename,
 		int heightPreview) {
+	LOGI("Training called (ooo)....");
 	try {
 		Mat imageTrain;
-		LOGI("Training called....");
 
 		const char *imageTrainFile = env->GetStringUTFChars(jfilename, NULL);
 		Mat aux = imread(imageTrainFile, CV_LOAD_IMAGE_GRAYSCALE);
-		SCREEN_FACTOR = SCALE_TRAIN
-				* ((double) heightPreview / (double) aux.rows);
+		double SCREEN_FACTOR = ((double) heightPreview / (double) aux.rows);
 		resize(aux, imageTrain, Size(), SCREEN_FACTOR, SCREEN_FACTOR,
 				INTER_AREA);
 
-		imageTrainIndex++;
+
+		imageTrainIndex[viewMode]++;
 		extractFeatures(viewMode, imageTrain,
-				imageTrainKeypoints[imageTrainIndex],
-				imageTrainDescriptors[imageTrainIndex]);
+				imageTrainKeypoints[viewMode][imageTrainIndex[viewMode]],
+				imageTrainDescriptors[viewMode][imageTrainIndex[viewMode]]);
 		std::vector<Point2f> objCorners = std::vector<Point2f>(4);
 		objCorners[0] = cvPoint(0, 0);
 		objCorners[1] = cvPoint(imageTrain.cols, 0);
 		objCorners[2] = cvPoint(imageTrain.cols, imageTrain.rows);
 		objCorners[3] = cvPoint(0, imageTrain.rows);
-		imageTrainObjCorners[imageTrainIndex] = objCorners;
+		imageTrainObjCorners[viewMode][imageTrainIndex[viewMode]] = objCorners;
 		imageTrain.release();
 		aux.release();
 
-//		ostringstream os;
-//		os << "**** descriptores: " << imageTrainKeypoints[imageTrainIndex].size();
-//		LOGI(os.str().c_str());
+		ostringstream os;
+		os << "Training finished.... " << imageTrainKeypoints[viewMode][imageTrainIndex[viewMode]].size() << " keypoints.";
+		LOGI(os.str().c_str());
 
 		env->ReleaseStringUTFChars(jfilename, imageTrainFile);
 	} catch (Exception const &ex) {
@@ -156,7 +147,7 @@ JNIEXPORT void JNICALL Java_com_ramirooliva_cvriousity_CatalogManager_TrainImage
 
 }
 
-bool checkAgainstTrained(int train) {
+bool checkAgainstTrained(int train, int viewMode) {
 
 	bool homogramma_is_good = false;
 	int height, width;
@@ -170,7 +161,8 @@ bool checkAgainstTrained(int train) {
 			trainIdxs[i] = good_matches[i].trainIdx;
 		}
 		vector<Point2f> points1;
-		KeyPoint::convert(imageTrainKeypoints[train], points1, queryIdxs);
+		KeyPoint::convert(imageTrainKeypoints[viewMode][train], points1,
+				queryIdxs);
 		vector<Point2f> points2;
 		KeyPoint::convert(keypoints, points2, trainIdxs);
 		vector<char> matchesMask(good_matches.size(), 0);
@@ -203,7 +195,8 @@ bool checkAgainstTrained(int train) {
 		}
 
 		if (homogramma_is_good == true) {
-			std::vector<Point2f> obj_corners = imageTrainObjCorners[train];
+			std::vector<Point2f> obj_corners =
+					imageTrainObjCorners[viewMode][train];
 			STAGE = 8;
 			perspectiveTransform(obj_corners, scene_corners, H);
 			p0.x = scene_corners[0].x; // / SCALE_SCENE;
@@ -247,7 +240,8 @@ JNIEXPORT void JNICALL Java_com_ramirooliva_cvriousity_CameraView_FindFeatures(
 		Mat aux = (*pMatGr);
 		sceneHeight = aux.rows;
 		sceneWidth = aux.cols;
-
+		busy = false;
+		return;
 		extractFeatures(viewMode, aux, keypoints, descriptors);
 		if (keypoints.size() > 20) {
 			int bestMatches[10];
@@ -258,10 +252,11 @@ JNIEXPORT void JNICALL Java_com_ramirooliva_cvriousity_CameraView_FindFeatures(
 			// Check agains trained image
 			Ptr<DescriptorMatcher> matcher = new BFMatcher(NORM_HAMMING2, true);
 			std::vector<DMatch> matches;
-			for (int train = 0; train <= imageTrainIndex; train++) {
+			for (int train = 0; train <= imageTrainIndex[viewMode]; train++) {
 				bestGoodMatchesCount[train] = 0;
-				crossCheckMatching(matcher, imageTrainDescriptors[train],
-						descriptors, matches, 1);
+				crossCheckMatching(matcher,
+						imageTrainDescriptors[viewMode][train], descriptors,
+						matches, 1);
 				if (matches.size() > 10) {
 					bestIndex++;
 					bestMatches[bestIndex] = train;
@@ -281,7 +276,7 @@ JNIEXPORT void JNICALL Java_com_ramirooliva_cvriousity_CameraView_FindFeatures(
 				if (bestMatch >= 0) {
 					good_matches = bestGoodMatches[bestMatch];
 					bestGoodMatchesCount[bestMatch] = 0;
-					if (checkAgainstTrained(bestMatch)) {
+					if (checkAgainstTrained(bestMatch, viewMode)) {
 						jclass rectClass = env->GetObjectClass(polygon);
 						jint *sarr = env->GetIntArrayElements(polygon, NULL);
 						sarr[0] = p0.x;

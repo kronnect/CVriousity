@@ -1,6 +1,5 @@
 package com.ramirooliva.cvriousity;
 
-import com.ramirooliva.cvriousity.R;
 import org.opencv.android.Utils;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;

@@ -2,7 +2,6 @@ package com.ramirooliva.cvriousity;
 
 import java.io.File;
 
-import com.ramirooliva.cvriousity.R;
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
@@ -123,17 +122,39 @@ public class Catalog extends Activity implements
 			public void onClick(View v) {
 				new AsyncTask<Integer, Integer, Boolean>() {
 					ProgressDialog progressDialog;
-					private int viewMode;
 					DisplayMetrics metrics;
 
 					@Override
 					protected void onPreExecute() {
 						progressDialog = ProgressDialog.show(Catalog.this, "",
 								"Training...");
-						viewMode = CameraView.VIEW_MODE_FBRIEF;
 						metrics = new DisplayMetrics();
 						getWindowManager().getDefaultDisplay().getMetrics(
 								metrics);
+						mCatalogManager.ResetTrain();
+					}
+
+					@Override
+					protected void onProgressUpdate(Integer... values) {
+						super.onProgressUpdate(values);
+						int mode = values[0];
+						switch(mode) {
+						case CameraView.VIEW_MODE_FBRIEF:
+							progressDialog.setMessage("Training (FAST+BRIEF)...");
+							break;
+						case CameraView.VIEW_MODE_ORB:
+							progressDialog.setMessage("Training (ORB)...");
+							break;
+						case CameraView.VIEW_MODE_FFREAK:
+							progressDialog.setMessage("Training (FAST+FREAK)...");
+							break;
+						case CameraView.VIEW_MODE_MFREAK:
+							progressDialog.setMessage("Training (MSER+FREAK)...");
+							break;
+						case CameraView.VIEW_MODE_GFREAK:
+							progressDialog.setMessage("Training (GFTT+FREAK)...");
+							break;
+						}
 					}
 
 					@Override
@@ -145,9 +166,12 @@ public class Catalog extends Activity implements
 							// index images of catalog
 							Thread.currentThread().setPriority(
 									Thread.MAX_PRIORITY);
+							for (int trainViewMode = 0; trainViewMode < 5; trainViewMode++) {
+								publishProgress(trainViewMode);
+								Intro.getCatalogInstance().TrainAll(
+										trainViewMode, metrics.heightPixels);
+							}
 
-							Intro.getCatalogInstance().TrainAll(viewMode,
-									metrics.heightPixels);
 						} catch (Exception e) {
 							Log.e("tag", e.getMessage());
 							return false;

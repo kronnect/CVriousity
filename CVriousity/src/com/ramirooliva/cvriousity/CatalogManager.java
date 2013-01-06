@@ -222,18 +222,11 @@ public class CatalogManager {
 
 	public void TrainAll(int viewMode, int screenHeight) {
 
-		ResetTrain();
 		CatalogManager catalogManager = Intro.getCatalogInstance();
 		for (int i = 0; i < catalogManager.size(); i++) {
 			Log.i(TAG,
 					"Training image " + (i + 1) + "="
-							+ catalogManager.getImageFilename(i) + "...");
-			/*
-			 * DisplayMetrics metrics = new DisplayMetrics();
-			 * App.getContext().getApplicationContext
-			 * ().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-			 * Log.i(TAG, "Alto: " + metrics.heightPixels);
-			 */
+							+ catalogManager.getImageFilename(i) + ", ViewMode=" + viewMode + "...");
 			CatalogBean b = catalogBeanArrayList.get(i);
 			File file = new File(getAppFilesPath(), b.filename);
 			TrainImage(viewMode,  file.getAbsolutePath(), screenHeight);
