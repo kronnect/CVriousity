@@ -1,0 +1,14 @@
+This is the README file for CVriousity project.
+
+#CVriousity is an OpenCV experiment developed by Ramiro Oliva for Android platform as part of his MSc final research project on Computer Vision.
+The purpose of this app is to evaluate OpenCV's ability to detect art imagery using best methods available for current version on Android port.
+The methods used are aligned to the research in which, from +30 combinations of detectors, descriptors and matchers, a few ones were singled out as best choices.
+This app allows you to choose from these selected combinations of methods so you can check their performance and efficacy from your own device and in realtime.
+
+The app has been developed using 100% open source software. See LICENSE for licensing details.
+The official repository of this software is:
+https://github.com/RamiroOliva/CVriousity.git
+
+Please, feel free to contact me (ramiro_oliva@hotmail.com or @RamiroOliva) if you have any questions.
+
+
