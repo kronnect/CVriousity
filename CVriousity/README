@@ -29,7 +29,8 @@ The app allows you to detect objects or images in the scene viewed through devic
 - MSER/FREAK - good accuracy but slower.
 - GFTT/FREAK- best accuracy but the slowest method of the five.
 
-You can also touch the screen to freeze the image and let the app try to detect images using each of the available methods.
+Tap on the screen to focus camera.
+You can also double tap the screen to freeze the image and let the app try to detect images using each of the available methods.
 
 The app comes with 10 art sample images which are automatically added to the catalog (database) the first time the app is run. You may also take your own pictures of small objets using device's builtin camera. I recommend you to put a blank, white sheet, below the object before taking the photo. The app will automatically crop and resize image before adding it to the catalog.
 
