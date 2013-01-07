@@ -32,10 +32,40 @@ The app allows you to detect objects or images in the scene viewed through devic
 Tap on the screen to focus camera.
 You can also double tap the screen to freeze the image and let the app try to detect images using each of the available methods.
 
-The app comes with 10 art sample images which are automatically added to the catalog (database) the first time the app is run. You may also take your own pictures of small objets using device's builtin camera. I recommend you to put a blank, white sheet, below the object before taking the photo. The app will automatically crop and resize image before adding it to the catalog.
+The app comes with 10 art sample images which are automatically added to the catalog (database) the first time the app is run.
+A reference sheet for the images can be downloaded from https://www.dropbox.com/sh/0pqe5vzr557hrsu/pmpmA1Wkee
+Individual images can be viewed online at Web Gallery of Art (http://www.wga.hu)
 
+Art:
+Image 1 - "Allegory", AACHEN, Hans von
+http://www.wga.hu/art/a/aachen/allegory.jpg
 
+Image 2 - "Bacchus, Ceres and Cupid", AACHEN, Hans von,
+http://www.wga.hu/art/a/aachen/bacchus.jpg
 
+Image 3 - "Joking Couple", AACHEN, Hans von,
+http://www.wga.hu/art/a/aachen/j_couple.jpg
 
+Image 4 - "The Archangel Michael", ABADIA, Juan de la,
+http://www.wga.hu/art/a/abadia/michael.jpg
 
+Image 5 - "Albarello", ABAQUESNE, Masséot,
+http://www.wga.hu/art/a/abaquesn/albarell.jpg
+
+Image 6 - "Ceramic Floor", ABAQUESNE, Masséot,
+http://www.wga.hu/art/a/abaquesn/floor1.jpg
+
+Image 7 - "Ceramic Floor", ABAQUESNE, Masséot,
+http://www.wga.hu/art/a/abaquesn/floor2.jpg
+
+Image 8 - "The Flood", ABAQUESNE, Masséot,
+http://www.wga.hu/art/a/abaquesn/theflood.jpg
+
+Image 9 - "Chimney breast", ABBATE, Niccolò dell',
+http://www.wga.hu/art/a/abbate/chimney1.jpg
+
+Image 10 - "Chimney breast", ABBATE, Niccolò dell' (2)
+http://www.wga.hu/art/a/abbate/chimney2.jpg
+
+You may also take your own pictures of small objets using device's builtin camera. I recommend you to put a blank, white sheet, below the object before taking the photo. The app will automatically crop and resize image before adding it to the catalog.
 
